@@ -1,7 +1,8 @@
 ## Checklist before submitting code
+- Please use [vanilla javascript API `sort`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to implement sorting algorithm
 - The code quality is checked automatically when running `npm start`. Problems are reported at console output. We expect **zero problem** be reported
 - Components is placed in `frontend/components/` and it should be unit tested (See `MSNotification.test.js` for sample) and documented (See `README.md` from LinkWithIcon). In summary, for component `YourComponent`, you should provide us `YourComponent.js`, `YourComponent.css`, `README.md` at "frontend/components/YourComponent/" and `YourComponent.test.js` at "frontend/test/"
-- Please only use the libraries we specified in document to finish the task
+- Please only use the libraries we specified in document to finish the task. Vanillia Javascript API is also fine.
 - We expect css class name use camel case naming convention. When the css is accessed as javascript property we prefer dot notation instead of square brackets notation. For example, we prefer `style.myClassName` instead of `style['my-class-name']`.
 - Make sure statements like `console.log` or `debugger` be removed
 - Take a screenshot of finished component and send to us

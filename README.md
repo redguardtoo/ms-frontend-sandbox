@@ -1,21 +1,19 @@
 ## Checklist before submitting code
 - Please use [vanilla javascript API `sort`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) to implement sorting algorithm
-- The code quality is checked automatically when running `npm start`. Problems are reported at console output. We expect **zero problem** be reported
-- Components is placed in `frontend/components/` and it should be unit tested (See `MSNotification.test.js` for sample) and documented (See `README.md` from LinkWithIcon). In summary, for component `YourComponent`, you should provide us `YourComponent.js`, `YourComponent.css`, `README.md` at "frontend/components/YourComponent/" and `YourComponent.test.js` at "frontend/test/"
-- Please only use the libraries we specified in document to finish the task. Vanillia Javascript API is also fine.
-- We expect css class name use camel case naming convention. When the css is accessed as javascript property we prefer dot notation instead of square brackets notation. For example, we prefer `style.myClassName` instead of `style['my-class-name']`.
-- Make sure statements like `console.log` or `debugger` be removed
+- Components is placed in `frontend/components/` and it should be unit tested by running `npm run test`. See `MSNotification.test.js` for sample). In summary, for component `YourComponent`, you should provide us `YourComponent.js` at "frontend/components/YourComponent/" and `YourComponent.test.js` at "frontend/test/"
+- Please only use the libraries we specified in document to finish the task
+- Make sure statements like `console.log` or `debugger` is removed
 - Take a screenshot of finished component and send to us
-- Please use APIs from `CommonUtil.js` and `common.css`. But don't modify these two files
+- Please use APIs from `CommonUtil.js`
 
 ## Usage
-Run `npm install && npm run devbuild && npm start` will:
+Run `npm install && npm start` will:
 - Compile the code into dev version
 - Start the dev web server
 
 The root directory of the running application is at `frontend-dist`, relative to this README.
 
-You can open `http://127.0.0.1:3333/webpack-dev-server/` in browser.
+You can open `http://127.0.0.1:3333/webpack-dev-server/` or `http://127.0.0.1:3333/` in browser.
 
 When you update the code, the **code is automatically deployed and browser is updated automatically**. So you basically need do nothing if you use `npm start` to start the server.
 
@@ -23,7 +21,7 @@ When you update the code, the **code is automatically deployed and browser is up
 
 ### General
 
-Code indentation is two spaces for JS/JSX/CSS.
+Code indentation is two spaces for JS/JSX.
 
 Keep an eye on console output (the command line window where you run npm commands) from time to time. Any issue is automatically checked and reported there. Make sure zero problem is reported.
 ### Javascript
@@ -50,7 +48,7 @@ But relative to current file is OK if the path is not **relative** to the parent
 Front end components are placed at `frontend/components`:
 - A component could inherit from other component
 - A component could import another component
-- A component is a directory containing one CSS file and one JS file
+- A component is a directory containing JS files
 - See `frontend/components/MSFormInput` for example
 - We use third party UI components from react-bootstrap. If your new component is to inherit from or override a react-bootstrap component. Your component name should comply with react-bootstrap naming convention. For example, if a component type is button, its name **must** end with "Button"
 - Make your code DRY (Don't Repeat Yourself) is encouraged. But avoid over-engineering by creating too many tiny components
@@ -60,7 +58,6 @@ Here is a component `YourComponentName.js` using redux,
 import React from 'react';
 import { connect } from 'react-redux';
 // Optional
-import st from './YourComponentName.css';
 
 export class YourComponentName extends React.Component {
   componentDidMount() {
@@ -118,10 +115,3 @@ export default class YourComponentName extends React.Component {
   }
 }
 ```
-
-### CSS
-We use [POSTCSS](https://github.com/postcss/postcss) enhanced by [postcss-nested](https://github.com/postcss/postcss-nested), [postcss-import](https://github.com/postcss/postcss-import), [postcss-simple-vars](https://github.com/postcss/postcss-simple-vars).
-
-It's basically just native CSS with some syntactic sugar. The good news is you don't need consider namespace when writing CSS for a component (css files under components/ directory). You can use any CSS class name without worrying class name conflicts.
-
-Check `MyModal.css` for general css style. Our button, dropdown, table, grid layout is based on [Bootstrap](http://getbootstrap.com/). So make sure the UI style (font size, button width ...) is similar to sample should be fine unless designer has specific requirement.

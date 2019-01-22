@@ -16,8 +16,6 @@ import {
   validatorAlphaNumeric
 } from 'CommonUtil/CommonUtil.js';
 
-import st from './MyModal.css';
-
 export class MyModal extends React.Component {
   constructor(props) {
     super(props);
@@ -56,14 +54,14 @@ export class MyModal extends React.Component {
 
   render() {
     return (
-      <Modal show={this.props.showMyModal} onHide={ this.close } className={st.modal}>
+      <Modal show={this.props.showMyModal} onHide={ this.close }>
         <LocalForm
           model="user"
           validators={this.formValidators}
           onSubmit={this.save}
           className="form-horizontal"
         >
-          <Modal.Header closeButton className={st.header}>
+          <Modal.Header closeButton>
             <Modal.Title>Login</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -82,7 +80,7 @@ export class MyModal extends React.Component {
               model=".password">
               Password *
             </MSFormInput>
-            { this.state.resultMessage? <div className={st.error}>{this.state.resultMessage}</div>:null }
+            { this.state.resultMessage? <div style={{color:'red'}}>{this.state.resultMessage}</div>:null }
           </Modal.Body>
           <Modal.Footer>
             <Button type="submit">OK</Button>

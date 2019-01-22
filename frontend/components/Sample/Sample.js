@@ -12,7 +12,6 @@ import {
 
 import MyTable from 'MyTable/MyTable.js';
 import MyModal from 'MyModal/MyModal.js';
-import LinkWithIcon from 'LinkWithIcon/LinkWithIcon.js';
 
 export class Sample extends React.Component {
 
@@ -34,8 +33,6 @@ export class Sample extends React.Component {
         <ButtonGroup>
           <Button onClick={() => this.context.router.push(getRoutePath()) } >Goto Dashboard</Button>
         </ButtonGroup>
-        <h2>Icon link:</h2>
-        <LinkWithIcon glyph="male" iconClassName="fa-2x" />
         <h2>Modal, Button toolbar:</h2>
         <ButtonToolbar>
           <ButtonGroup>

@@ -153,11 +153,11 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /node_modules|styles/,
-        loader: 'style-loader!css-loader?localIdentName=[name]__[local]__[hash:base64:5]&modules&importLoaders=1&sourceMap!postcss-loader'
+        loader: 'style-loader!css-loader?localIdentName=[name]__[local]__[hash:base64:5]&modules&importLoaders=1&sourceMap'
       }, {
         test: /\.css$/,
         include: /styles/, // global css
-        loader: 'style-loader!css-loader!postcss-loader'
+        loader: 'style-loader!css-loader'
       }, {
         test: /\.css$/,
         include: /node_modules/,
@@ -165,7 +165,7 @@ module.exports = {
       }, {
         test: /\.jsx*$/,
         exclude: [/node_modules/, /.+\.config.js/],
-        loader: 'babel!eslint-loader' // lint css before compiling
+        loader: 'babel'
       }, {
         test: /\.(jpe?g|gif|png|svg)$/i,
         loader: 'url-loader?limit=10000'
@@ -178,22 +178,7 @@ module.exports = {
         loader: "style!css!fontgen?embed&types=woff,eot,ttf"
       }
     ]
-  },
-  postcss: (webpack) => [
-    // plugin loading order matters!
-    require('postcss-import')({
-      // where to search styles
-      path: ['frontend/styles'],
-      addDependencyTo: webpack
-    }),
-    // @see https://github.com/postcss/postcss-mixins/issues/21
-    require('postcss-mixins'),
-    require('postcss-simple-vars')({ silent: false}),
-    require('postcss-nested')(),
-    // thought IE9+ already supports calc() out of box
-    require('postcss-calc')({warnWhenCannotResolve: true}),
-    require('autoprefixer')({ browsers: ['last 2 versions'] })
-  ]
+  }
 };
 // Local Variables:
 // coding: utf-8

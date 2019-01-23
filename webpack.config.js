@@ -13,7 +13,6 @@ if(!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development';
 }
 
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var webpack = require('webpack');
@@ -50,7 +49,6 @@ function getBundleJSFileName(prefix) {
 
 function getWebpackPlugins() {
   var arr = [
-    new LodashModuleReplacementPlugin,
     new CopyWebpackPlugin(getFilesToCopy()),
     // full moment.js is too big. @see https://github.com/moment/moment/issues/2416
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
@@ -170,10 +168,6 @@ module.exports = {
         test: /\.(jpe?g|gif|png|svg)$/i,
         loader: 'url-loader?limit=10000'
       }, {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
-      {
         test: /\.font.(js|json)$/,
         loader: "style!css!fontgen?embed&types=woff,eot,ttf"
       }

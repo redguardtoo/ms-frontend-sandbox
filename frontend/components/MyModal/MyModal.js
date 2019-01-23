@@ -102,15 +102,13 @@ function mapDispatchToProps(dispatch) {
   return({
     loginNow: function(values) {
       console.log('MyModal.js: ?.loginNow called => ', 'values=', values);
-      return dispatch(function(/* dispatch */) {
-        return postJSON(getRoutePath('api/test'), {
-          username: values.username,
-          password: values.password
-        }).then(function(resp) {
-          return (resp && resp.token)? resp.token:null;
-        }, function(err) {
-          return null;
-        });
+      return postJSON(getRoutePath('api/test'), {
+        username: values.username,
+        password: values.password
+      }).then(function(resp) {
+        return (resp && resp.token)? resp.token:null;
+      }, function(err) {
+        return null;
       });
     },
     showNotificationMessage: function(msg) {

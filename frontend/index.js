@@ -17,7 +17,6 @@ import React from 'react';
 import { Router, browserHistory } from 'react-router';
 import { render } from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk'; // reducer could resolve the promise
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'; // route saved into store
 import {
@@ -40,7 +39,6 @@ const store = createStore(
   // - Open develop toolbar on Chrome
   // - Or select redux `Redux DevTools` from web page
   // - will crash IE11
-  applyMiddleware(thunk)
 );
 /* eslint-enable */
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount, render } from 'enzyme';
-import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
@@ -19,7 +18,6 @@ const store = createStore(
     routing: routerReducer
   }),
   {}, // initial state
-  applyMiddleware(thunk)
 );
 
 describe('Test MSFormInput', function() {

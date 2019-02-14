@@ -1,4 +1,7 @@
 import update from 'immutability-helper';
+import { combineReducers } from 'redux';
+
+import SortTableReducer from '../SortTable/SortTableReducer';
 
 function RootReducer(storeState = {}, action) {
   let finalStoreState;
@@ -21,4 +24,7 @@ function RootReducer(storeState = {}, action) {
   console.log('RootReducer.js: RootReducer called => ', 'finalStoreState=', finalStoreState, 'action=', action);
   return finalStoreState;
 }
-export default RootReducer;
+export default combineReducers({
+  RootReducer,
+  SortTableReducer
+});

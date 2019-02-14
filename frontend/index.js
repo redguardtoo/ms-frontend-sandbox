@@ -94,6 +94,14 @@ const rootRoute = {
           cb(null, require('Sample/Sample.js').default);
         });
       }
+    },
+    {
+      path: 'sort-table',
+      getComponent:(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('SortTable/SortTableView.js').default);
+        });
+      }
     }
   ]
 };

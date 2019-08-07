@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Button, ButtonToolbar, ButtonGroup } from "react-bootstrap";
 
 import { getRoutePath } from "CommonUtil/CommonUtil.js";
-import SampleTable from "../MyTable/MyTable";
+import SampleTable from "../SampleTable/SampleTable";
 
 export class Dashboard extends React.Component {
   componentDidMount() {}

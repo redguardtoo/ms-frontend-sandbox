@@ -63,3 +63,4 @@ frontend-dist/
 src/
 yarn.lock
 package-lock.json
+.history

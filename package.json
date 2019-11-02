@@ -11,7 +11,7 @@
   "author": "Chen Bin <chenbin.sh AT gmail DOT com>",
   "license": "GPL",
   "dependencies": {
-    "bootstrap": "3.3.7",
+    "bootstrap": "3.4.1",
     "font-awesome": "4.7.0",
     "immutability-helper": "2.1.1",
     "react": "15.4.2",

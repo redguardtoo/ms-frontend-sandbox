@@ -1,25 +1,21 @@
 // So you need prepare follow files:
 //   - frontend/index.js (@see react-indexjs.yasnippet)
 //   - frontend/index.template.ejs (used by HtmlWebpackPlugin, @see html5-webpack.yasnippet)
-//   - frontend/components/Sample/Sample.js
-//   - frontend/components/Dashboard/Dashboard.js
-//   - frontend/styles/ (storing global css files)
-//   - package.json (@see package-reactjs.yasnippet)
+//   - package.json
 //   - webpack.config.js
-//   - .babelrc
 
 if(!process.env.NODE_ENV) {
   // make webpack-dev-server happy to run the `webpack`
   process.env.NODE_ENV = 'development';
 }
 
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var webpack = require('webpack');
-var path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+const path = require('path');
 
-function getBundleJSFileName(prefix) {
-  return prefix + (process.env.NODE_ENV === 'production'? '.[hash].js':'.js');
+function getBundleJSFileName() {
+  return (process.env.NODE_ENV === 'production'? '[id].js':'[name].js');
 }
 
 function getWebRootDir(child) {
@@ -31,32 +27,21 @@ function getDeploymentLocalDistDir() {
 }
 
 function getFilesToCopy() {
-  var list = [
-    {from: 'node_modules/bootstrap/dist/css/*', to: '../css/', flatten:true },
-    {from: 'node_modules/bootstrap/dist/fonts/*', to: '../fonts/', flatten:true },
-    {from: 'node_modules/font-awesome/css/*', to: '../css/', flatten:true },
-    {from: 'node_modules/font-awesome/fonts/*', to: '../fonts', flatten:true}
-  ];
-  // if(process.env.NODE_ENV === 'development') {
-  //   list.push({from:'src/main/resources/static/images/*', to: '../images', flatten:true});
-  // }
-  return list;
-}
-
-function getBundleJSFileName(prefix) {
-  return prefix + (process.env.NODE_ENV === 'production'? '.[hash].js':'.js');
+  return {
+    patterns: [
+      {from: 'node_modules/bootstrap/dist/css/*', to: '../css/'},
+    ],
+  };
 }
 
 function getWebpackPlugins() {
-  var arr = [
+  const arr = [
     new CopyWebpackPlugin(getFilesToCopy()),
     // full moment.js is too big. @see https://github.com/moment/moment/issues/2416
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       'process.env': {'NODE_ENV': process.env.NODE_ENV === 'production'?'"production"':'"development"'}
     }),
-    new webpack.optimize.OccurrenceOrderPlugin,
-    new webpack.optimize.CommonsChunkPlugin('vendor', getBundleJSFileName('vendor')),
     new HtmlWebpackPlugin({
       filename: '../index.html',
       template: path.resolve(__dirname, 'frontend/index.template.ejs'),
@@ -91,34 +76,49 @@ function getWebpackPlugins() {
       })
     );
   }
-  arr.push(function() {
-    this.plugin("done", function(stats) {
-      require("fs").writeFileSync(
-          path.join(__dirname, "..", "stats.json"),
-          JSON.stringify(stats.toJson()));
-    });
-  });
   return arr;
 }
 
+const rules = [
+  {
+    test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+    loader: "file-loader"
+  }, {
+    test: /\.css$/,
+    include: /node_modules/,
+    use: [
+      { loader: 'style-loader' },
+      {
+        loader: 'css-loader',
+        options: {
+          modules: true
+        }
+      },
+    ],
+  }, {
+    test: /\.jsx*$/,
+    exclude: [/node_modules/, /.+\.config.js/],
+    use: {
+      loader: 'babel-loader',
+      options: {
+        presets: ['@babel/preset-env', '@babel/preset-react',]
+      },
+    },
+  }
+];
+
 module.exports = {
   // we don't need source map in dev version because code is NOT uglified
-  devtool: process.env.NODE_ENV === 'production'? 'cheap-module-source-map': null,
   entry: {
     app:'./frontend/index.js',
     vendor: [
-      'core-js',
       'react',
       'react-dom',
-      'react-bootstrap',
-      'redux',
-      'react-redux',
     ]
   },
   output: {
     path: path.resolve(__dirname, getDeploymentLocalDistDir()),
-    filename: getBundleJSFileName('bundle'),
-    chunkFilename: getBundleJSFileName('[id].bundle'),
+    filename: getBundleJSFileName(),
     publicPath: getWebRootDir('/js/')
   },
   devServer: {
@@ -129,50 +129,15 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     modules: [
-      'frontend',
-      'node_modules'
+      path.resolve(__dirname, './frontend/components'),
+      path.resolve(__dirname, './frontend'),
+      'node_modules',
     ],
-    // root for es2015 import
-    // @see http://moduscreate.com/es6-es2015-import-no-relative-path-webpack/
-    root: [
-      path.resolve('./frontend/components')
-    ]
   },
 
   module: {
-    loaders: [
-      {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "url-loader?limit=10000&minetype=application/font-woff"
-      }, {
-        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: "file-loader"
-      } ,
-      {
-        test: /\.css$/,
-        exclude: /node_modules|styles/,
-        loader: 'style-loader!css-loader?localIdentName=[name]__[local]__[hash:base64:5]&modules&importLoaders=1&sourceMap'
-      }, {
-        test: /\.css$/,
-        include: /styles/, // global css
-        loader: 'style-loader!css-loader'
-      }, {
-        test: /\.css$/,
-        include: /node_modules/,
-        loaders: ['style-loader', 'css-loader']
-      }, {
-        test: /\.jsx*$/,
-        exclude: [/node_modules/, /.+\.config.js/],
-        loader: 'babel'
-      }, {
-        test: /\.(jpe?g|gif|png|svg)$/i,
-        loader: 'url-loader?limit=10000'
-      }, {
-        test: /\.font.(js|json)$/,
-        loader: "style!css!fontgen?embed&types=woff,eot,ttf"
-      }
-    ]
-  }
+    rules,
+  },
 };
 // Local Variables:
 // coding: utf-8
